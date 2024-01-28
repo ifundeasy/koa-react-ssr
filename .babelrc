@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    // Add any additional Babel plugins as needed
+  ]
+}

@@ -1,33 +1,34 @@
-import React from "react";
+import React from 'react'
 
 const styles = {
   container: {
-    maxWidth: "120rem",
-    padding: "0 3.2rem",
-    margin: "0 auto",
-    width: "800px",
+    maxWidth: '120rem',
+    padding: '0 3.2rem',
+    margin: '0 auto',
+    width: '800px',
   },
 
   section: {
-    marginTop: "10px",
-    padding: "2.2rem",
-    borderRadius: "0.3rem",
+    marginTop: '10px',
+    padding: '2.2rem',
+    borderRadius: '0.3rem',
     boxShadow:
-      "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+      'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
   },
 
   heading: {
-    color: "#333333",
-    letterSpacing: "0.1rem",
+    color: '#333333',
+    letterSpacing: '0.1rem',
   },
 
   content: {
-    fontSize: "1.4rem",
-    color: "#4d4d4d",
-    lineHeight: "1.8rem",
+    fontSize: '1.4rem',
+    color: '#4d4d4d',
+    lineHeight: '1.8rem',
   },
 };
-const HomeModule = () => {
+function HomeModule(props) {
+  console.log('HomeModule', props);
   return (
     <div style={styles.container}>
       <div style={styles.section}>
@@ -38,6 +39,11 @@ const HomeModule = () => {
           content, which the client-side JavaScript utilizes to dynamically
           construct the final rendered page.
         </p>
+        <pre style={styles.content}>
+          From server:
+          {' '}
+          { JSON.stringify(props.locals, 0, 2)}
+        </pre>
       </div>
       <div style={styles.section}>
         <h1 style={styles.heading}>Server-side rendering (SSR)</h1>
@@ -48,9 +54,14 @@ const HomeModule = () => {
           markup, this approach involves the server generating the final HTML
           markup for a web page and sending it to the client.
         </p>
+        <pre style={styles.content}>
+          From server:
+          {' '}
+          { JSON.stringify(props.locals, 0, 2)}
+        </pre>
       </div>
     </div>
   );
-};
+}
 
 export default HomeModule;

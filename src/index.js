@@ -1,13 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+require('ignore-styles');
 
-ReactDOM.hydrateRoot(
-  document,
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+require('@babel/register')({
+  ignore: [/(node_modules)/],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+});
+
+require('./manifest');
