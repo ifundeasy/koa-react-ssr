@@ -5,6 +5,9 @@ Forked from [sheth-jay/React-18-SSR-Implementation](https://github.com/sheth-jay
 3. Directory restucture
 4. Just using `npm` instead `yarn`
 5. Adding `eslint` with `air-bnb` configuration template
+6. Adding `jest` for standard unit testing
+7. Adding `lint-stagged` for clean code before commit
+8. Adding `nodemon` for hot reload server code
 
 This is a React application that has implemented React 18's server-side API for rendering components on the server. This allows for improved performance and better user experience by pre-rendering components on the server and sending them to the client.
 
