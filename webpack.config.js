@@ -1,13 +1,31 @@
-import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+/* eslint-disable import/no-extraneous-dependencies */
 
-const dirname = new URL('.', import.meta.url).pathname;
+require('dotenv').config()
 
-export default {
-  entry: './src/frontend/index.jsx',
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
+
+const env = process.env.NODE_ENV
+const port = process.env.PORT
+const useProd = (env !== 'development')
+const mode = useProd ? 'production' : 'development'
+const modulePaths = []
+const moduleDirs = __dirname.split('/')
+const context = path.join(__dirname, 'src', 'http', 'react')
+
+// eslint-disable-next-line no-plusplus
+for (let i = 0; i < 2; i++) {
+  modulePaths.push(path.join(moduleDirs.slice(0, moduleDirs.length - i).join('/'), 'node_modules'))
+}
+
+const webpackOpts = {
+  context,
+  mode,
+  entry: path.join(context, 'index.jsx'),
   output: {
-    path: path.resolve(dirname, 'dist'), // Use import.meta.url to get the module URL
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   module: {
@@ -40,14 +58,37 @@ export default {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Your custom title',
-      template: path.resolve(dirname, 'public', 'index.html'),
-      favicon: path.resolve(dirname, 'public', 'favicon.ico'),
-    }),
-    new WebpackManifestPlugin({
-      basePath: path.resolve(dirname, 'public'),
-      filename: 'manifest.json',
+    new Dotenv({ silent: true }),
+    new HtmlWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'lib/*',
+          noErrorOnMissing: true,
+          filter: async (file) => {
+            const exludes = ['.gitkeep']
+            if (exludes.indexOf(file.replace(/^.*[\\/]/, '')) === -1) return true
+
+            return false
+          },
+          to: path.resolve(__dirname, 'dist'),
+        },
+        {
+          from: 'asset/**/*',
+          noErrorOnMissing: true,
+          // filter: async (file) => {
+          //   const exludes = ['site.webmanifest']
+          //   if (exludes.indexOf(file.replace(/^.*[\\/]/, '')) === -1) return true
+          //   return false
+          // },
+          to: path.resolve(__dirname, 'dist'),
+        },
+        ...modulePaths.map((dir) => ({
+          from: `${dir}/bootstrap/dist`,
+          noErrorOnMissing: true,
+          to: path.resolve(__dirname, 'dist/lib/bootstrap'),
+        })),
+      ],
     }),
   ],
   resolve: {
@@ -58,8 +99,14 @@ export default {
   },
   devServer: {
     static: {
-      directory: path.resolve(new URL('.', import.meta.url).pathname, 'dist'),
+      directory: path.resolve(__dirname, 'dist'),
     },
-    port: 3000,
+    port,
   },
 };
+
+if (mode === 'development') {
+  webpackOpts.devtool = 'cheap-module-source-map'
+}
+
+module.exports = webpackOpts

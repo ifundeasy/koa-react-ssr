@@ -1,16 +1,14 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
+import { hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import Main from './pages/Main'
-import reportWebVitals from './utils/report-web-vitals'
-import './index.css'
+import App from './App'
+import reportWebVitals from './util/report-web-vitals'
 
-const rootElm = document.getElementById('root')
-const root = createRoot(rootElm)
-root.render(
+hydrateRoot(
+  document,
   <React.StrictMode>
     <BrowserRouter>
-      <Main />
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
 )

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
-import About from './About'
-import Home from './Home'
-import '../styles/App.css'
+import Header from './component/Header'
+import About from './page/About'
+import Home from './page/Home'
+import './style/app.css'
 
 const styles = {
   main_header: {
@@ -41,25 +42,29 @@ const styles = {
 
 function App(props) {
   return (
-    <div>
-      <div style={styles.main_header}>
-        <div style={styles.header}>
-          <div style={styles.navbar}>
-            <Link to="/" style={styles.nav_link}>
-              Home
-            </Link>
-            <Link to="/about" style={styles.nav_link}>
-              About
-            </Link>
+    <html lang="en">
+      <Header {...props} />
+      <body>
+        <div>
+          <div style={styles.main_header}>
+            <div style={styles.header}>
+              <div style={styles.navbar}>
+                <Link to="/" style={styles.nav_link}>
+                  Home
+                </Link>
+                <Link to="/about" style={styles.nav_link}>
+                  About
+                </Link>
+              </div>
+            </div>
           </div>
+          <Routes>
+            <Route path="/" element={<Home {...props} />} />
+            <Route path="/about" element={<About {...props} />} />
+          </Routes>
         </div>
-      </div>
-
-      <Routes>
-        <Route path="/" element={<Home {...props} />} />
-        <Route path="/about" element={<About {...props} />} />
-      </Routes>
-    </div>
+      </body>
+    </html>
   )
 }
 

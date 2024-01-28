@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 
 const HomeModule = React.lazy(() => new Promise((resolve) => {
   setTimeout(resolve, 2000)
-}).then(() => import('../components/HomeModule')))
+}).then(() => import('../component/HomeModule')))
 
 function Home(props) {
   console.log('Home', props)
